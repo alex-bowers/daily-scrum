@@ -1,0 +1,331 @@
+:root {
+    --color-bg: #f7f8fa;
+    --color-card-bg: #ffffff;
+    --color-border: #c2c7cf;
+    --color-text: #1a1a1a;
+    --color-text-muted: #4a5568;
+    --color-primary: #0b5fff;
+    --color-primary-hover: #084bcc;
+    --color-danger: #c5281c;
+    --color-amber: #b35c00;
+    --color-red: #c5281c;
+    --color-done: #1f7a5c;
+    --radius: 0.5rem;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --spacing: 1rem;
+    --spacing-half: 0.5rem;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.5;
+}
+
+button {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+.app {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 20px;
+}
+
+.app__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.app__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.app__refresh-btn {
+    padding: var(--spacing-half) var(--spacing);
+    border: 1px solid var(--color-primary);
+    background: transparent;
+    color: var(--color-primary);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover:not(:disabled) {
+        background: var(--color-primary);
+        color: #fff;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.app__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing);
+    align-items: start;
+}
+
+.card {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.card--expanded {
+    border-color: var(--color-primary);
+}
+
+.card__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing);
+    padding: var(--spacing);
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    transition: background 0.12s;
+
+    &:hover {
+        background: var(--color-bg);
+    }
+}
+
+.card__username {
+    flex: 1;
+}
+
+.card__chevron {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+.card__body {
+    border-top: 1px solid var(--color-border);
+    padding: var(--spacing);
+}
+
+.pr-badge {
+    display: inline-block;
+    padding: 2px var(--spacing-half);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.pr-badge--neutral {
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+}
+
+.pr-badge--amber {
+    background: #fff3cd;
+    color: var(--color-amber);
+    border: 1px solid #ffe5a0;
+}
+
+.pr-badge--red {
+    background: #ffecea;
+    color: var(--color-red);
+    border: 1px solid #ffbdad;
+}
+
+.todo-list__nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.todo-list__nav-btn {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 2px var(--spacing-half);
+    font-size: 0.875rem;
+    color: var(--color-text);
+    transition: background 0.12s;
+
+    &:hover:not(:disabled) {
+        background: var(--color-bg);
+    }
+
+    &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+}
+
+.todo-list__date {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.todo-list__loading,
+.todo-list__empty {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    padding: var(--spacing-half) 0;
+}
+
+.todo-list__items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.todo-list__form {
+    display: flex;
+    gap: var(--spacing-half);
+}
+
+.todo-list__input {
+    flex: 1;
+    padding: 7px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: var(--color-text);
+    outline: none;
+    transition: border-color 0.15s;
+
+    &:focus {
+        border-color: var(--color-primary);
+    }
+}
+
+.todo-list__add-btn {
+    padding: 7px 14px;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.15s;
+
+    &:hover {
+        background: var(--color-primary-hover);
+    }
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-half);
+    padding: var(--spacing-half);
+    border-radius: var(--radius);
+    transition: background 0.1s;
+
+    &:hover {
+        background: var(--color-bg);
+    }
+
+    &:hover .todo-item__drag-handle,
+    &:hover .todo-item__delete {
+        opacity: 1;
+    }
+}
+
+.todo-item--done .todo-item__text {
+    text-decoration: line-through;
+    color: var(--color-text-muted);
+}
+
+.todo-item--dragging {
+    opacity: 0.4;
+}
+
+.todo-item__drag-handle {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    cursor: grab;
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.1s;
+    user-select: none;
+}
+
+.todo-item__checkbox {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-done);
+    cursor: pointer;
+}
+
+.todo-item__checkbox-placeholder {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.todo-item__text {
+    flex: 1;
+    font-size: 0.875rem;
+    cursor: text;
+
+    & a {
+        color: var(--color-primary);
+        text-decoration: underline;
+
+        &:hover {
+            color: var(--color-primary-hover);
+        }
+    }
+}
+
+.todo-item__edit-input {
+    flex: 1;
+    padding: 2px 6px;
+    border: 1px solid var(--color-primary);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    outline: none;
+}
+
+.todo-item__delete {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0 2px;
+    opacity: 0;
+    transition: opacity 0.1s, color 0.1s;
+
+    &:hover {
+        color: var(--color-danger);
+    }
+}
