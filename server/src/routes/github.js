@@ -18,7 +18,7 @@ router.get('/prs', async (req, res) => {
         const results = await Promise.all(
             usernames.map(async (username) => {
                 const { data } = await octokit.request('GET /search/issues', {
-                    q: `org:${org} is:pr is:open review-requested:${username}`,
+                    q: `org:${org} is:pr is:open review-requested:${username} -label:"on hold"`,
                     per_page: 1,
                 })
                 return { username, count: data.total_count }

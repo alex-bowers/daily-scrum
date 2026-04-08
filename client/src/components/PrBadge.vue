@@ -17,7 +17,7 @@ const props = defineProps({
 })
 
 const searchUrl = computed(() => {
-    const q = encodeURIComponent(`org:${props.org} is:pr is:open review-requested:${props.username}`)
+    const q = encodeURIComponent(`org:${props.org} is:pr is:open review-requested:${props.username} -label:"on hold"`)
     return `https://github.com/search?q=${q}&type=pullrequests`
 })
 </script>
