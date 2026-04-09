@@ -108,7 +108,6 @@ function nextDay() {
                 v-for="(todo, index) in todos"
                 :key="todo.id"
                 :todo="todo"
-                :readonly="isPast"
                 :draggable="!isPast"
                 :class="{ 'todo-item--dragging': todo.id === draggingId }"
                 @toggle="toggle"
