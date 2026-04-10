@@ -3,7 +3,14 @@ import { Octokit } from '@octokit/rest'
 
 const router = Router()
 
+let cache = null
+let cacheExpiresAt = 0
+
 router.get('/prs', async (req, res) => {
+    if (cache && Date.now() < cacheExpiresAt) {
+        return res.json(cache)
+    }
+
     const token = process.env.GITHUB_TOKEN
     const org = process.env.GITHUB_ORG
     const usernames = (process.env.TEAM_USERNAMES || '').split(',').map((u) => u.trim()).filter(Boolean)
@@ -26,6 +33,8 @@ router.get('/prs', async (req, res) => {
         )
 
         const prCounts = Object.fromEntries(results.map(({ username, count }) => [username, count]))
+        cache = prCounts
+        cacheExpiresAt = Date.now() + 10 * 60 * 1000
         res.json(prCounts)
     } catch (err) {
         console.error('GitHub API error:', err)
