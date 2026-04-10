@@ -16,6 +16,21 @@
     --spacing-half: 0.5rem;
 }
 
+:root[data-theme="dark"] {
+    --color-bg: #0f1117;
+    --color-card-bg: #1a1d27;
+    --color-border: #2e3347;
+    --color-text: #e8eaf0;
+    --color-text-muted: #8b95a8;
+    --color-primary: #4d8fff;
+    --color-primary-hover: #6ba3ff;
+    --color-danger: #f06a61;
+    --color-amber: #e09450;
+    --color-red: #f06a61;
+    --color-done: #3db88a;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -57,6 +72,35 @@ ul {
     color: var(--color-text);
 }
 
+.app__header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-half);
+}
+
+.app__theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: var(--spacing-half) var(--spacing);
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-muted);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+        background: var(--color-bg);
+        color: var(--color-text);
+    }
+}
+
+.app__theme-label {
+    font-size: 0.8rem;
+}
+
 .app__refresh-btn {
     padding: var(--spacing-half) var(--spacing);
     border: 1px solid var(--color-primary);
@@ -94,7 +138,7 @@ ul {
 }
 
 .card--expanded {
-    border-color: var(--color-primary);
+    border-color: var(--color-border);
 }
 
 .card__header {
@@ -145,15 +189,15 @@ ul {
 }
 
 .pr-badge--amber {
-    background: #fff3cd;
+    background: color-mix(in srgb, var(--color-amber) 12%, var(--color-card-bg));
     color: var(--color-amber);
-    border: 1px solid #ffe5a0;
+    border: 1px solid color-mix(in srgb, var(--color-amber) 30%, var(--color-card-bg));
 }
 
 .pr-badge--red {
-    background: #ffecea;
+    background: color-mix(in srgb, var(--color-red) 12%, var(--color-card-bg));
     color: var(--color-red);
-    border: 1px solid #ffbdad;
+    border: 1px solid color-mix(in srgb, var(--color-red) 30%, var(--color-card-bg));
 }
 
 .todo-list__nav {

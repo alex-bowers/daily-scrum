@@ -2,6 +2,9 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useWebSocket } from './composables/useWebSocket.js'
 import TeamMemberCard from './components/TeamMemberCard.vue'
+import { useTheme } from './composables/useTheme.js'
+
+const { resolvedDark, preference, toggle: toggleTheme, resetToSystem } = useTheme()
 
 const team = ref([])
 const org = ref('')
@@ -51,9 +54,22 @@ onMounted(async () => {
     <div class="app">
         <header class="app__header">
             <h1 class="app__title">Daily Scrum</h1>
-            <button class="app__refresh-btn" :disabled="prLoading" @click="fetchPrs">
-                {{ prLoading ? 'Refreshing…' : 'Refresh PRs' }}
-            </button>
+            <div class="app__header-actions">
+                <button
+                    class="app__theme-btn"
+                    :title="preference === 'system' ? 'Using system theme — click to override' : `Theme: ${preference} — click to toggle`"
+                    @click="toggleTheme"
+                    @dblclick.prevent="resetToSystem"
+                >
+                    {{ resolvedDark ? '☀' : '☾' }}
+                    <span class="app__theme-label">
+                        {{ preference === 'system' ? 'System' : resolvedDark ? 'Dark' : 'Light' }}
+                    </span>
+                </button>
+                <button class="app__refresh-btn" :disabled="prLoading" @click="fetchPrs">
+                    {{ prLoading ? 'Refreshing…' : 'Refresh PRs' }}
+                </button>
+            </div>
         </header>
 
         <main class="app__grid">
