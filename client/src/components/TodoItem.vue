@@ -69,6 +69,7 @@ function cancelEdit() {
             v-if="!readonly"
             type="checkbox"
             :checked="todo.completed"
+            :aria-label="`Mark as ${todo.completed ? 'incomplete' : 'complete'}: ${todo.text}`"
             @change="emit('toggle', todo.id, !todo.completed)"
             class="todo-item__checkbox"
         />
@@ -80,16 +81,26 @@ function cancelEdit() {
             ref="inputEl"
             v-model="editText"
             class="todo-item__edit-input"
+            :aria-label="`Edit todo: ${todo.text}`"
             @blur="commitEdit"
             @keyup.enter="commitEdit"
             @keyup.escape="cancelEdit"
         />
 
         <button
+            v-if="!readonly && !editing"
+            class="todo-item__edit-btn"
+            @click="startEdit"
+            :aria-label="`Edit: ${todo.text}`"
+        >
+            <span aria-hidden="true">✎</span>
+        </button>
+
+        <button
             v-if="!readonly"
             class="todo-item__delete"
             @click="emit('remove', todo.id)"
-            aria-label="Delete todo"
+            :aria-label="`Delete: ${todo.text}`"
         >
             &times;
         </button>

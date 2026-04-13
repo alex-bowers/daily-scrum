@@ -57,7 +57,7 @@ onMounted(async () => {
             <div class="app__header-actions">
                 <button
                     class="app__theme-btn"
-                    :title="preference === 'system' ? 'Using system theme — click to override' : `Theme: ${preference} — click to toggle`"
+                    :aria-label="preference === 'system' ? 'Theme: system — click to override' : `Theme: ${resolvedDark ? 'dark' : 'light'} — click to toggle`"
                     @click="toggleTheme"
                     @dblclick.prevent="resetToSystem"
                 >
@@ -66,7 +66,7 @@ onMounted(async () => {
                         {{ preference === 'system' ? 'System' : resolvedDark ? 'Dark' : 'Light' }}
                     </span>
                 </button>
-                <button class="app__refresh-btn" :disabled="prLoading" @click="fetchPrs">
+                <button class="app__refresh-btn" :disabled="prLoading" :aria-busy="prLoading" @click="fetchPrs">
                     {{ prLoading ? 'Refreshing…' : 'Refresh PRs' }}
                 </button>
             </div>

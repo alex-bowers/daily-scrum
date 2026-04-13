@@ -27,13 +27,18 @@ const expanded = ref(true)
 
 <template>
     <div class="card" :class="{ 'card--expanded': expanded }">
-        <button class="card__header" @click="expanded = !expanded">
+        <button
+            class="card__header"
+            @click="expanded = !expanded"
+            :aria-expanded="expanded"
+            :aria-controls="`card-body-${username}`"
+        >
             <span class="card__username">{{ username }}</span>
             <PrBadge v-if="prCount !== null" :count="prCount" :org="org" :username="username" />
             <span class="card__chevron" aria-hidden="true">{{ expanded ? '▲' : '▼' }}</span>
         </button>
 
-        <div v-if="expanded" class="card__body">
+        <div v-if="expanded" class="card__body" :id="`card-body-${username}`">
             <TodoList :username="username" :wsHandlers="wsHandlers" />
         </div>
     </div>

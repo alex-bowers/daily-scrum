@@ -101,9 +101,9 @@ function nextDay() {
             <button class="todo-list__nav-btn" @click="nextDay" aria-label="Next day">&rarr;</button>
         </div>
 
-        <p v-if="loading" class="todo-list__loading">Loading&hellip;</p>
+        <p v-if="loading" class="todo-list__loading" role="status">Loading&hellip;</p>
 
-        <ul v-else class="todo-list__items">
+        <ul v-else class="todo-list__items" :aria-label="`${username}'s todos`">
             <TodoItem
                 v-for="(todo, index) in todos"
                 :key="todo.id"
@@ -121,7 +121,9 @@ function nextDay() {
         </ul>
 
         <form v-if="!isPast" class="todo-list__form" @submit.prevent="submitAdd">
+            <label :for="`todo-input-${username}`" class="visually-hidden">Add a todo for {{ username }}</label>
             <input
+                :id="`todo-input-${username}`"
                 v-model="newText"
                 class="todo-list__input"
                 placeholder="Add a todo…"

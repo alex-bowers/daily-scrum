@@ -28,6 +28,7 @@ const searchUrl = computed(() => {
         target="_blank"
         rel="noopener noreferrer"
         class="pr-badge"
+        :aria-label="`${count} pull request${count !== 1 ? 's' : ''} to review for ${username} (opens in new tab)`"
         :class="{
             'pr-badge--neutral': count <= 1,
             'pr-badge--amber': count >= 2 && count <= 3,
