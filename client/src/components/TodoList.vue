@@ -45,7 +45,11 @@ async function submitAdd() {
 }
 
 async function submitCarryOver() {
-    await carryOver(selectedDate.value)
+    try {
+        await carryOver(selectedDate.value)
+    } catch (e) {
+        console.error('Failed to carry over todos:', e)
+    }
 }
 
 async function toggle(id, completed) {
@@ -125,7 +129,7 @@ function nextDay() {
         </ul>
 
         <button
-            v-if="!isPast"
+            v-if="isToday"
             type="button"
             class="todo-list__carry-btn"
             :disabled="loading"

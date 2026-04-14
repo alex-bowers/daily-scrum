@@ -47,13 +47,18 @@ export function useTodos(username) {
     }
 
     async function carryOver(toDate) {
-        const res = await fetch('/api/todos/carry-over', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, toDate }),
-        })
-        if (!res.ok) throw new Error('Failed to carry over todos')
-        return res.json()
+        loading.value = true
+        try {
+            const res = await fetch('/api/todos/carry-over', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, toDate }),
+            })
+            if (!res.ok) throw new Error('Failed to carry over todos')
+            return res.json()
+        } finally {
+            loading.value = false
+        }
     }
 
     function handleAdded(todo) {
