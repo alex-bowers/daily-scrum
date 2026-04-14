@@ -20,7 +20,7 @@ const isToday = computed(() => selectedDate.value === today)
 const isPast = computed(() => selectedDate.value < today)
 const newText = ref('')
 
-const { todos, loading, fetchTodos, addTodo, updateTodo, removeTodo, reorderTodos, handleAdded, handleUpdated, handleDeleted, handleReordered } =
+const { todos, loading, fetchTodos, addTodo, updateTodo, removeTodo, reorderTodos, carryOver, handleAdded, handleUpdated, handleDeleted, handleReordered } =
     useTodos(props.username)
 
 const draggingId = ref(null)
@@ -42,6 +42,14 @@ async function submitAdd() {
     if (!trimmed) return
     newText.value = ''
     await addTodo(selectedDate.value, trimmed)
+}
+
+async function submitCarryOver() {
+    try {
+        await carryOver(selectedDate.value)
+    } catch (e) {
+        console.error('Failed to carry over todos:', e)
+    }
 }
 
 async function toggle(id, completed) {
@@ -119,6 +127,17 @@ function nextDay() {
             />
             <li v-if="todos.length === 0" class="todo-list__empty">No todos yet.</li>
         </ul>
+
+        <button
+            v-if="isToday"
+            type="button"
+            class="todo-list__carry-btn"
+            :disabled="loading"
+            :aria-label="`Carry over from last active day for ${username}`"
+            @click="submitCarryOver"
+        >
+            Carry over from last active day
+        </button>
 
         <form v-if="!isPast" class="todo-list__form" @submit.prevent="submitAdd">
             <label :for="`todo-input-${username}`" class="visually-hidden">Add a todo for {{ username }}</label>

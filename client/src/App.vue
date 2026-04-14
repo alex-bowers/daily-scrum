@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { useWebSocket } from './composables/useWebSocket.js'
 import TeamMemberCard from './components/TeamMemberCard.vue'
 import { useTheme } from './composables/useTheme.js'
@@ -10,6 +10,13 @@ const team = ref([])
 const org = ref('')
 const prCounts = ref({})
 const prLoading = ref(false)
+const lastUpdated = ref(null)
+let refreshTimer = null
+
+const lastUpdatedLabel = computed(() => {
+    if (!lastUpdated.value) return null
+    return lastUpdated.value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+})
 
 const wsHandlers = reactive({
     'todo:added': [],
@@ -37,6 +44,7 @@ async function fetchPrs() {
     try {
         const res = await fetch('/api/github/prs')
         prCounts.value = await res.json()
+        lastUpdated.value = new Date()
     } catch (e) {
         console.error('Failed to fetch PR counts:', e)
     } finally {
@@ -47,6 +55,12 @@ async function fetchPrs() {
 onMounted(async () => {
     await fetchTeam()
     await fetchPrs()
+    const intervalMinutes = parseInt(import.meta.env.VITE_PR_REFRESH_INTERVAL, 10) || 5
+    refreshTimer = setInterval(fetchPrs, intervalMinutes * 60 * 1000)
+})
+
+onUnmounted(() => {
+    clearInterval(refreshTimer)
 })
 </script>
 
@@ -66,6 +80,9 @@ onMounted(async () => {
                         {{ preference === 'system' ? 'System' : resolvedDark ? 'Dark' : 'Light' }}
                     </span>
                 </button>
+                <span class="app__last-updated" aria-live="polite" aria-atomic="true">
+                    <template v-if="lastUpdatedLabel">Updated {{ lastUpdatedLabel }}</template>
+                </span>
                 <button class="app__refresh-btn" :disabled="prLoading" :aria-busy="prLoading" @click="fetchPrs">
                     {{ prLoading ? 'Refreshing…' : 'Refresh PRs' }}
                 </button>
