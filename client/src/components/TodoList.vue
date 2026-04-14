@@ -91,6 +91,11 @@ function nextDay() {
     d.setDate(d.getDate() + 1)
     selectedDate.value = d.toISOString().slice(0, 10)
 }
+
+function goToToday() {
+  const d = new Date()
+  selectedDate.value = d.toISOString().slice(0, 10)
+}
 </script>
 
 <template>
@@ -99,6 +104,14 @@ function nextDay() {
             <button class="todo-list__nav-btn" @click="prevDay" aria-label="Previous day">&larr;</button>
             <span class="todo-list__date">{{ isToday ? 'Today' : selectedDate }}</span>
             <button class="todo-list__nav-btn" @click="nextDay" aria-label="Next day">&rarr;</button>
+            
+            <button
+                v-if="!isToday"
+                class="todo-list__nav-btn"
+                @click="goToToday"
+            >
+                Go to Today
+            </button>
         </div>
 
         <p v-if="loading" class="todo-list__loading" role="status">Loading&hellip;</p>
