@@ -14,6 +14,8 @@ const props = defineProps({
     },
 })
 
+let originalOrder = []
+
 const today = new Date().toISOString().slice(0, 10)
 const selectedDate = ref(today)
 const isToday = computed(() => selectedDate.value === today)
@@ -61,6 +63,7 @@ function onDragStart(e, todo, index) {
     e.dataTransfer.setData('text/plain', String(todo.id))
     draggingId.value = todo.id
     dragIndex = index
+    originalOrder = todos.value.map(t => t.id)
 }
 
 function onDragOver(e, index) {
@@ -75,8 +78,16 @@ function onDragOver(e, index) {
 
 async function onDragEnd() {
     if (draggingId.value === null) return
+
     draggingId.value = null
     dragIndex = null
+
+    const newOrder = todos.value.map(t => t.id)
+    
+    if (originalOrder.every((id, index) => id === newOrder[index])) {
+        return
+    }
+
     await reorderTodos(todos.value.map((t, i) => ({ id: t.id, sort_order: i })))
 }
 
