@@ -128,6 +128,8 @@ function nextDay() {
             v-if="!isPast"
             type="button"
             class="todo-list__carry-btn"
+            :disabled="loading"
+            :aria-label="`Carry over from last active day for ${username}`"
             @click="submitCarryOver"
         >
             Carry over from last active day

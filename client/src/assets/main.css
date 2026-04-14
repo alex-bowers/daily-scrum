@@ -302,6 +302,28 @@ ul {
     }
 }
 
+.todo-list__carry-btn {
+    padding: 7px 14px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s;
+    margin-bottom: 12px;
+
+    &:hover:not(:disabled) {
+        background: var(--color-bg);
+        color: var(--color-primary);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
 .todo-item {
     display: flex;
     align-items: center;
