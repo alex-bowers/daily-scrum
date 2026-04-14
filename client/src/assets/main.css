@@ -309,6 +309,8 @@ ul {
     padding: var(--spacing-half);
     border-radius: var(--radius);
     transition: background 0.1s;
+    overflow-x: auto;
+    white-space: nowrap;
 
     &:hover {
         background: var(--color-bg);
