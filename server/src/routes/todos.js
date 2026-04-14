@@ -49,6 +49,54 @@ router.put('/reorder', (req, res) => {
     res.status(204).end()
 })
 
+router.post('/carry-over', (req, res) => {
+    const { username, toDate } = req.body
+    if (!username || !toDate) {
+        return res.status(400).json({ error: 'username and toDate are required' })
+    }
+
+    const db = getDb()
+
+    // Most recent day before toDate that has at least one todo for this user
+    const sourceDay = db
+        .prepare('SELECT DISTINCT date FROM todos WHERE username = ? AND date < ? ORDER BY date DESC LIMIT 1')
+        .get(username, toDate)
+
+    if (!sourceDay) {
+        return res.json([])
+    }
+
+    // All incomplete todos from that day, in display order
+    const incompleteTodos = db
+        .prepare('SELECT * FROM todos WHERE username = ? AND date = ? AND completed = 0 ORDER BY sort_order ASC, id ASC')
+        .all(username, sourceDay.date)
+
+    if (incompleteTodos.length === 0) {
+        return res.json([])
+    }
+
+    // Append after any todos that already exist for toDate
+    const { m: maxOrder } = db
+        .prepare('SELECT COALESCE(MAX(sort_order), -1) AS m FROM todos WHERE username = ? AND date = ?')
+        .get(username, toDate)
+
+    const insertStmt = db.prepare(
+        'INSERT INTO todos (username, date, text, completed, sort_order) VALUES (?, ?, ?, 0, ?)'
+    )
+    const selectStmt = db.prepare('SELECT * FROM todos WHERE id = ?')
+
+    const newTodos = []
+    db.transaction(() => {
+        incompleteTodos.forEach((todo, i) => {
+            const info = insertStmt.run(username, toDate, todo.text, maxOrder + 1 + i)
+            newTodos.push(selectStmt.get(info.lastInsertRowid))
+        })
+    })()
+
+    newTodos.forEach((todo) => broadcast('todo:added', todo))
+    res.status(201).json(newTodos)
+})
+
 router.patch('/:id', (req, res) => {
     const { id } = req.params
     const { text, completed } = req.body
