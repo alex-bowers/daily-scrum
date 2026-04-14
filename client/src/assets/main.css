@@ -309,6 +309,8 @@ ul {
     padding: var(--spacing-half);
     border-radius: var(--radius);
     transition: background 0.1s;
+    overflow-x: auto;
+    white-space: nowrap;
 
     &:hover {
         background: var(--color-bg);
@@ -365,6 +367,9 @@ ul {
     flex: 1;
     font-size: 0.875rem;
     cursor: text;
+    min-width: 0;          /* IMPORTANT: allows overflow inside flex */
+    overflow-x: auto;
+    white-space: nowrap;
 
     & a {
         color: var(--color-primary);
