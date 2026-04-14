@@ -80,8 +80,8 @@ onUnmounted(() => {
                         {{ preference === 'system' ? 'System' : resolvedDark ? 'Dark' : 'Light' }}
                     </span>
                 </button>
-                <span v-if="lastUpdatedLabel" class="app__last-updated" aria-live="polite">
-                    Updated {{ lastUpdatedLabel }}
+                <span class="app__last-updated" aria-live="polite" aria-atomic="true">
+                    <template v-if="lastUpdatedLabel">Updated {{ lastUpdatedLabel }}</template>
                 </span>
                 <button class="app__refresh-btn" :disabled="prLoading" :aria-busy="prLoading" @click="fetchPrs">
                     {{ prLoading ? 'Refreshing…' : 'Refresh PRs' }}

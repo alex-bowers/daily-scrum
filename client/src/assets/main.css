@@ -139,6 +139,11 @@ ul {
     }
 }
 
+.app__last-updated {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
 .app__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
