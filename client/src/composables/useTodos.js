@@ -46,6 +46,16 @@ export function useTodos(username) {
         if (!res.ok) throw new Error('Failed to reorder todos')
     }
 
+    async function carryOver(toDate) {
+        const res = await fetch('/api/todos/carry-over', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, toDate }),
+        })
+        if (!res.ok) throw new Error('Failed to carry over todos')
+        return res.json()
+    }
+
     function handleAdded(todo) {
         if (todo.username !== username) return
         if (!todos.value.find((t) => t.id === todo.id)) {
@@ -82,6 +92,7 @@ export function useTodos(username) {
         updateTodo,
         removeTodo,
         reorderTodos,
+        carryOver,
         handleAdded,
         handleUpdated,
         handleDeleted,
