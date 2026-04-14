@@ -367,6 +367,9 @@ ul {
     flex: 1;
     font-size: 0.875rem;
     cursor: text;
+    min-width: 0;          /* IMPORTANT: allows overflow inside flex */
+    overflow-x: auto;
+    white-space: nowrap;
 
     & a {
         color: var(--color-primary);
