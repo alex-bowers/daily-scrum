@@ -1,0 +1,46 @@
+{
+  "env": {
+    "node": true,
+    "es2024": true,
+    "browser": true
+  },
+  "extends": ["airbnb-base"],
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["vue"],
+  "rules": {
+    "indent": ["error", 2],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "vue/html-indent": ["error", 2],
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": ["warn", { "allow": ["error", "warn"] }],
+    "import/no-relative-packages": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-underscore-dangle": "off",
+    "no-use-before-define": "off",
+    "no-restricted-globals": "off",
+    "no-restricted-syntax": "off",
+    "object-curly-newline": "off",
+    "operator-linebreak": "off",
+    "consistent-return": "off",
+    "no-nested-ternary": "off",
+    "comma-dangle": "off",
+    "camelcase": "off",
+    "max-len": "off"
+  },
+  "overrides": [
+    {
+      "files": ["server/**/*.js"],
+      "env": {
+        "node": true
+      }
+    }
+  ]
+}

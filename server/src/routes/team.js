@@ -1,13 +1,13 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-const router = Router()
+const router = Router();
 
 router.get('/', (req, res) => {
-    const usernames = (process.env.TEAM_USERNAMES || '')
-        .split(',')
-        .map((u) => u.trim())
-        .filter(Boolean)
-    res.json({ usernames, org: process.env.GITHUB_ORG || '' })
-})
+  const usernames = (process.env.TEAM_USERNAMES || '')
+    .split(',')
+    .map((u) => u.trim())
+    .filter(Boolean);
+  res.json({ usernames, org: process.env.GITHUB_ORG || '' });
+});
 
-export default router
+export default router;

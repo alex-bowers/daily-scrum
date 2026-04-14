@@ -1,25 +1,25 @@
-import { WebSocketServer } from 'ws'
+import { WebSocketServer } from 'ws';
 
-let wss
+let wss;
 
 export function createWsServer(server) {
-    wss = new WebSocketServer({ server, path: '/ws' })
+  wss = new WebSocketServer({ server, path: '/ws' });
 
-    wss.on('connection', (socket) => {
-        socket.on('error', (err) => {
-            console.error('WebSocket error:', err)
-        })
-    })
+  wss.on('connection', (socket) => {
+    socket.on('error', (err) => {
+      console.error('WebSocket error:', err);
+    });
+  });
 
-    return wss
+  return wss;
 }
 
 export function broadcast(event, payload) {
-    if (!wss) return
-    const message = JSON.stringify({ event, payload })
-    for (const client of wss.clients) {
-        if (client.readyState === 1 /* OPEN */) {
-            client.send(message)
-        }
+  if (!wss) return;
+  const message = JSON.stringify({ event, payload });
+  for (const client of wss.clients) {
+    if (client.readyState === 1 /* OPEN */) {
+      client.send(message);
     }
+  }
 }
